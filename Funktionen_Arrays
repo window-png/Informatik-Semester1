@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+void print_func(int *carry, int size){
+  for(int i = 0; i < size; i++){ 
+    printf("%d ", carry[i]);
+  }
+}
+
+void fill_func(int *carry, int size, int smaller_num, int bigger_num){
+  srand(time(0));
+  int zufalls_zahl;
+  
+  for (int i = 0; i < size; i++){ 
+    carry[i] = zufalls_zahl = rand() % (bigger_num - smaller_num + 1) + smaller_num;
+    //printf("%d\n", zufalls_zahl);
+  }
+
+}
+
+void sort_func(int *carry, int size, int rising_falling){
+  int temp;
+  for (int i = 0; i < size -1; i++){
+    for (int j = 0; j < size - i - 1; j++){ 
+      if(rising_falling == 1){
+        if(carry[j] > carry[j+1]){
+          temp = carry[j];
+          carry[j] = carry[j +1];
+          carry[j +1] = temp;
+        }
+      } else if (rising_falling == 0){
+        if(carry[j] < carry[j+1]){
+          temp = carry[j];
+          carry[j] = carry[j +1];
+          carry[j +1] = temp;
+        }
+      }
+    }
+  }
+}
+
+int main() {
+  // ------------ Variabeln --------------------------------------------------------------------------------
+  
+  int arr_num[] = {10, 100, 2, 20, 200, 1, 1, 1, 0};
+  int flag;
+  int start = 0;
+  int ende = 1;
+  
+  // ----------------------------- Array füllen ------------------------------------------------------------
+  printf("Zwischen welchen Werten soll dein Array liegen? \n");
+  printf("[Reihenfolge ist irrelevant]");
+  scanf("%d", &start);
+  scanf("%d", &ende);
+
+  int temp;
+  if(start > ende){
+    temp = start;
+    start = ende;
+    ende = temp;
+    
+  } else if(start == ende){                                // Werte identisch - Array wird mit einem Wert gefüllt
+    
+  } else {
+    printf("Perfekt, ich gebe deine Werte jetzt weiter.\n\n");
+    
+  }
+  printf("\nDer Array vorher: ");
+  print_func(arr_num, sizeof(arr_num)/sizeof(int));
+  fill_func(arr_num, sizeof(arr_num)/sizeof(int), start, ende);
+  
+  // -------------------------------------------------- Array sortieren ------------------------------------
+  
+  printf("\nWie herum soll sortiert werden? [1] für aufsteigend, [0] für fallend");
+  if(scanf("%d", &flag) == 1 || scanf("%d", &flag) == 0){
+    
+    sort_func(arr_num, sizeof(arr_num)/sizeof(int), flag); // Funktion zum sortieren: Flag gibt die Sortierrichtung
+    
+  } else {
+    printf("Not in range!");                               // Falsche Eingabe
+  }
+  
+  // --------------------------------------------------------------------------------------------------------
+  printf("\nDer Array nachher: ");
+  print_func(arr_num, sizeof(arr_num)/sizeof(int));        // Zeigt Array
+  
+  return 0;
+}
